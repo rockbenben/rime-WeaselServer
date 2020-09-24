@@ -7,7 +7,7 @@
 
 ## 使用方法
 1. 将生成的程序`WeaselServerAutostart.exe`，放入小狼毫「程序文件夹」内，并生成桌面快捷方式。
-2. 将快捷方式移动至系统启动目录，Win10 默认位置为`C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp`。
+2. 将快捷方式移动至开机启动目录，Win10 默认位置为`%AppData%\Microsoft\Windows\Start Menu\Programs\Startup`。
 
 ## 脚本逻辑
 开机 5 秒后，检测小狼毫`WeaselServer.exe`是否启动。如果未运行，则启动脚本同目录下的`WeaselServer.exe`程序。
