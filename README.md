@@ -10,4 +10,5 @@
 2. 将快捷方式移动至开机启动目录，Win10 默认位置为`%AppData%\Microsoft\Windows\Start Menu\Programs\Startup`。
 
 ## 脚本逻辑
-脚本启动即检测小狼毫算法服务`WeaselServer.exe`是否启动。如果未运行，则启动脚本同目录下的`WeaselServer.exe`程序。脚本休眠 30 秒，然后再次检测算法服务是否启动。
+1. 检测小狼毫算法服务`WeaselServer.exe`是否启动。如果未运行，则启动脚本同目录下的`WeaselServer.exe`程序。
+2. 接着，脚本休眠 30 秒，再次检测算法服务是否启动。
