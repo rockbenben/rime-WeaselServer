@@ -5,6 +5,9 @@
 
 随着小狼毫升级为主力输入法，这问题愈加频繁，就用 autohotkey 写了脚本，暂时解决。
 
+github 下载：https://github.com/rockbenben/rime-WeaselServer/releases/
+国内蓝奏云：https://wwx.lanzoux.com/if3znkka01g
+
 ## 使用方法
 1. 将生成的程序`WeaselServerAutostart.exe`，放入小狼毫「程序文件夹」内，并生成桌面快捷方式。
 2. 将快捷方式移动至开机启动目录，Win10 默认位置为`%AppData%\Microsoft\Windows\Start Menu\Programs\Startup`。
