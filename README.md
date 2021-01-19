@@ -6,6 +6,7 @@
 随着小狼毫升级为主力输入法，这问题愈加频繁，就用 autohotkey 写了脚本，暂时解决。
 
 github 下载：https://github.com/rockbenben/rime-WeaselServer/releases/
+
 国内蓝奏云：https://wwx.lanzoux.com/if3znkka01g
 
 ## 使用方法
