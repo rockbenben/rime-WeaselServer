@@ -10,6 +10,8 @@ Else
 {
     ; 动态查找最新版本的 weasel 目录
     NewRunningDir := FindLatestWeaselDir("C:\Program Files (x86)\Rime")
+    If (NewRunningDir = "")
+        NewRunningDir := FindLatestWeaselDir("C:\Program Files\Rime")
 }
 
 ; 脚本启动后首先检查「小狼毫算法服务」是否已启动，如未启动，则手动启动
@@ -42,6 +44,7 @@ StartWeaselServer(RunningDir) {
 
 ; 定义函数：查找最新版本的 weasel 目录
 FindLatestWeaselDir(baseDir) {
+    latestDir := ""
     Loop, Files, %baseDir%\weasel-*, D
     {
         latestDir := A_LoopFileFullPath
