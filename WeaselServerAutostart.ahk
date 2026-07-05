@@ -1,53 +1,33 @@
-#NoEnv ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
-SendMode Input ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir% ; Ensures a consistent starting directory.
+﻿#Requires AutoHotkey v2.0
+#SingleInstance Force
+SendMode("Input")
+SetWorkingDir(A_ScriptDir)
 
-; 检测当前脚本目录是否有 WeaselServer.exe 程序
-IfExist, %A_ScriptDir%\WeaselServer.exe
-    NewRunningDir := A_ScriptDir ; 如果有，将脚本目录设置为运行目录
-Else
-{
+; 检测脚本目录是否有 WeaselServer.exe
+if FileExist(A_ScriptDir "\WeaselServer.exe")
+    NewRunningDir := A_ScriptDir                       ; 有就用脚本目录
+else {
     ; 动态查找最新版本的 weasel 目录
     NewRunningDir := FindLatestWeaselDir("C:\Program Files (x86)\Rime")
-    If (NewRunningDir = "")
+    if (NewRunningDir = "")
         NewRunningDir := FindLatestWeaselDir("C:\Program Files\Rime")
 }
 
-; 脚本启动后首先检查「小狼毫算法服务」是否已启动，如未启动，则手动启动
-StartWeaselServer(NewRunningDir)
-
-; 脚本休眠 30 秒
-Sleep, 30000
-
-; 休眠结束后，再次检查「小狼毫算法服务」是否已启动
-StartWeaselServer(NewRunningDir)
-
-; 脚本再次休眠 180 秒
-Sleep, 180000
-
-; 休眠结束后，最后检查一次「小狼毫算法服务」是否已启动
-StartWeaselServer(NewRunningDir)
-
-; 无论结果如何，结束脚本
-ExitApp
-
-; 定义函数：启动 WeaselServer
-StartWeaselServer(RunningDir) {
-    Process, Exist, WeaselServer.exe
-    NewPID := ErrorLevel ; ErrorLevel 的值可能会经常变化，所以需要立即保存这个值
-    if not NewPID
-    {
-        Run, %RunningDir%\WeaselServer.exe
-    }
+; 三个检查点（立刻 / +30s / +180s）：一旦发现服务在跑就立刻收工、不再空等；
+; 没起就拉起，等下一轮复查确认。（原脚本会把 3.5 分钟睡满才退出，这里改成起来即退出）
+for delay in [0, 30000, 180000] {
+    if (delay > 0)
+        Sleep(delay)
+    if ProcessExist("WeaselServer.exe")
+        ExitApp()                                   ; 已经在跑 → 无需再等，直接退出
+    try Run(NewRunningDir "\WeaselServer.exe")      ; 没起 → 拉起；路径无效时 try 吞掉错误（静默失败）
 }
+ExitApp()
 
-; 定义函数：查找最新版本的 weasel 目录
+; 查找最新版本的 weasel-* 目录（按名称排序取最后一个）
 FindLatestWeaselDir(baseDir) {
     latestDir := ""
-    Loop, Files, %baseDir%\weasel-*, D
-    {
+    Loop Files, baseDir "\weasel-*", "D"
         latestDir := A_LoopFileFullPath
-    }
     return latestDir
 }
